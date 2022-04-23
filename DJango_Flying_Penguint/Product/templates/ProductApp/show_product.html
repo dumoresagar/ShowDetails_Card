@@ -1,0 +1,25 @@
+{% extends "ProductApp/base.html" %}
+{% block title %}
+    <title>Show Product Page</title>
+{% endblock %}
+{% block content %}
+    <h1 style="text-align:center;color:orange">Product Details</h1>
+    <table class="table table-striped table-dark" style="width:90%;margin:auto">
+        <tr >
+            <th>ID</th>
+            <th>PRODUCT NAME</th>
+            <th>PRODUCT PRICE</th>
+            <th>Details</th>
+        </tr>
+        {% for product in product_list %}
+            <tr >
+                <td>{{product.id}}</td>
+                <td>{{product.P_name}}</td>
+                <td>{{product.P_price}}</td>
+                <td><a href="{% url 'details' product.id %}"><button class="btn btn-info">Details</button></a></td>
+            </tr>
+        {% endfor %}
+    </table>
+    <br>
+
+{% endblock %}

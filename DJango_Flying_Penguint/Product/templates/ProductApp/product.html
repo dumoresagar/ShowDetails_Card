@@ -1,0 +1,15 @@
+{% extends "ProductApp/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+    <title>Add Product Page</title>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <form method="post" class="jumbotron " enctype="multipart/form-data" style="margin:auto;width:60%">
+            <h1 style="text-align:center;color:crimson">Product Form</h1>
+            {% csrf_token %}
+            {{form | crispy}}
+            <input type="submit" value="ADD PRODUCT" class="btn btn-primary " style="margin-left:40%">
+        </form>
+    </div>
+{% endblock %}
