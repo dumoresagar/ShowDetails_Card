@@ -1,1 +1,2 @@
-# FlyingPenguind_MachineTest_ShowDetails_Card
+# Code in Master Branch
+# ShowDetails_Card
