@@ -1,0 +1,99 @@
+{% extends "ProductApp/base.html" %}
+{% block title %}
+    <title>Show Product Page</title>
+{% endblock %}
+{% block content %}
+    <h1 style="text-align: center; color: orange;">Product Details</h1>
+
+    <!-- Add the search form -->
+    <form style="margin-left: 1080px;" class="form-inline" method="GET" action="{% url 'show_product' %}">
+        <input style="float: right;" type="text" class="form-control mb-2 mr-sm-2" name="q" placeholder="Search by name or price" value="{{ search_query }}">
+        <button type="submit" class="btn btn-primary mb-2">Search</button>
+    </form>
+
+
+        <table class="table table-striped table-dark" style="width:90%;margin:auto">
+            <tr>
+                <th>ID</th>
+                <th>PRODUCT NAME</th>
+                <th>PRODUCT PRICE</th>
+                <th>Image</th>
+                <th>Details</th>
+            </tr>
+            {% for product in page_obj %}
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.P_name }}</td>
+                    <td>{{ product.P_price }}</td>
+                    <td><img class="myImg" src="{{ product.P_image.url }}" alt="" style="max-height: 50px; max-width: 50px;"></td>
+                    <td><a href="{% url 'details' product.id %}"><button class="btn btn-info">Details</button></a></td>
+                </tr>
+            {% endfor %}
+        </table>
+        <div id="myModal" class="modal">
+            <span class="close">&times;</span>
+            <img style="max-height: 400px; max-width: 400px;display: block; margin-top: 16%; margin-left: 38%;padding: 1%; "  class="modal-content" id="img01">
+            <div id="caption"></div>
+          </div>
+          <script>
+            // Get all the images with the class "myImg"
+            var images = document.getElementsByClassName("myImg");
+            
+            // Get the modal
+            var modal = document.getElementById("myModal");
+            
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+            
+            // Get the modal image and caption elements
+            var modalImg = document.getElementById("img01");
+            var captionText = document.getElementById("caption");
+            
+            // Loop through all images and add the click event listeners
+            for (var i = 0; i < images.length; i++) {
+                images[i].onclick = function() {
+                modal.style.display = "block";
+                modalImg.src = this.src;
+                captionText.innerHTML = this.alt;
+                };
+            }
+            
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+              modal.style.display = "none";
+            };
+            
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+              if (event.target == modal) {
+                modal.style.display = "none";
+              }
+            };
+            </script>
+            
+            
+        <br>
+        {% if not_found %}
+        <p style="text-align: center; font-weight: bold;">Not Found</p>
+        {% else %}
+
+        <!-- Display pagination links -->
+        <div style="text-align: center;">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1" class="btn btn-secondary">&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-secondary">previous</a>
+                {% endif %}
+        
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+        
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-secondary">next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-secondary">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+{% endblock %}
